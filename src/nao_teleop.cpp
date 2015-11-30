@@ -101,7 +101,7 @@ void convertXYZvectorsToAngles() {
     // left shoulder is element 3
     RS_Depth = tfDepth.at(3);
     RS_Right = tfRight.at(3);
-    RS_Height = tfHeight at(3);
+    RS_Height = tfHeight.at(3);
 
     // left elbow is element 4
     RE_Depth = tfDepth.at(4);
@@ -111,7 +111,7 @@ void convertXYZvectorsToAngles() {
     // left hand is element 5
     RH_Depth = tfDepth.at(5);
     RH_Right = tfRight.at(5);
-    RH_Height = tfHeight .at(5);
+    RH_Height = tfHeight.at(5);
 
     // right shoulder is element 6
 
@@ -164,7 +164,7 @@ void convertXYZvectorsToAngles() {
 
     //Square up Left Side
 
-    LBicep_Deptha = cos(SquareRoll)*LBicep_Depth_unsq+sin(SquareRoll) * LBicep_Right_unsq;
+    LBicep_Depth = cos(SquareRoll)*LBicep_Depth_unsq+sin(SquareRoll) * LBicep_Right_unsq;
     LBicep_Right = -sin(SquareRoll)*LBicep_Depth_unsq+cos(SquareRoll) * LBicep_Right_unsq;
     LForearm_Depth = cos(SquareRoll)*LForearm_Depth_unsq+sin(SquareRoll) * LForearm_Right_unsq;
     LForearm_Right = -sin(SquareRoll)*LForearm_Depth_unsq+cos(SquareRoll) * LForearm_Right_unsq;
@@ -322,13 +322,13 @@ int main( int argc , char **argv) {
     ros::Subscriber sub = n.subscribe("tf" , 1000, getTFvectors);
 
     // create a function to advertise on a given topic
-    ros::Publisher joint_angles_pub = n.advertise<nao_msgs::JointAnglesWithSpeed>("raw_joint_angles" ,1000);
+    ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("raw_joint_angles" ,1000);
 
     //choose the looping rate
     ros::Rate loop_rate(30.0);
 
     // create message element to be filled with appropriate data to be published
-    nao_msgs::JointAnglesWithSpeed msg;
+    naoqi_bridge_msgs::JointAnglesWithSpeed msg;
 
     // initialize arms to zero;
     initializeArms();
