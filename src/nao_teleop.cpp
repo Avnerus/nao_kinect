@@ -1,10 +1,10 @@
 /*
-∗ Paul Bartholomew Feb 2014
-∗ Read Joint Angles from OpenNi skeletal
+* Paul Bartholomew Feb 2014
+* Read Joint Angles from OpenNi skeletal
 XBOX Kinect data
 translate the information to joint angles to determine the human pose
 tracking software received from
-∗
+*
 
 https://smartech.gatech.edu/bitstream/handle/1853/51872/BARTHOLOMEW-THESIS-2014.pdf
 
@@ -164,16 +164,16 @@ void convertXYZvectorsToAngles() {
 
     //Square up Left Side
 
-    LBicep_Deptha = cos(SquareRoll)∗LBicep_Depth_unsq+sin(SquareRoll) ∗LBicep_Right_unsq;
-    LBicep_Right = -sin(SquareRoll)∗LBicep_Depth_unsq+cos(SquareRoll) ∗LBicep_Right_unsq;
-    LForearm_Depth = cos(SquareRoll)∗LForearm_Depth_unsq+sin(SquareRoll) ∗ LForearm_Right_unsq;
-    LForearm_Right = -sin(SquareRoll)∗LForearm_Depth_unsq+cos(SquareRoll) ∗ LForearm_Right_unsq;
+    LBicep_Deptha = cos(SquareRoll)*LBicep_Depth_unsq+sin(SquareRoll) * LBicep_Right_unsq;
+    LBicep_Right = -sin(SquareRoll)*LBicep_Depth_unsq+cos(SquareRoll) * LBicep_Right_unsq;
+    LForearm_Depth = cos(SquareRoll)*LForearm_Depth_unsq+sin(SquareRoll) * LForearm_Right_unsq;
+    LForearm_Right = -sin(SquareRoll)*LForearm_Depth_unsq+cos(SquareRoll) * LForearm_Right_unsq;
 
     //Square up Right Side
-    RBicep_Depth = cos(SquareRoll)∗RBicep_Depth_unsq+sin(SquareRoll) ∗ RBicep_Right_unsq;
-    RBicep_Right = -sin(SquareRoll)∗RBicep_Depth_unsq+cos(SquareRoll) ∗ RBicep_Right_unsq;
-    RForearm_Depth = cos(SquareRoll)∗RForearm_Depth_unsq+sin(SquareRoll) ∗ RForearm_Right_unsq;
-    RForearm_Right = -sin(SquareRoll)∗RForearm_Depth_unsq+cos(SquareRoll) ∗ RForearm_Right_unsq;
+    RBicep_Depth = cos(SquareRoll)*RBicep_Depth_unsq+sin(SquareRoll) * RBicep_Right_unsq;
+    RBicep_Right = -sin(SquareRoll)*RBicep_Depth_unsq+cos(SquareRoll) * RBicep_Right_unsq;
+    RForearm_Depth = cos(SquareRoll)*RForearm_Depth_unsq+sin(SquareRoll) * RForearm_Right_unsq;
+    RForearm_Right = -sin(SquareRoll)*RForearm_Depth_unsq+cos(SquareRoll) * RForearm_Right_unsq;
 
     // //OBTAIN PITCH AND ROLL ANGLES OF THE SHOULDER JOINTS
     // Pitch angle is obtained by the arc tangent of the Depth vector and the Height vector
@@ -182,13 +182,13 @@ void convertXYZvectorsToAngles() {
 
     //Next un-pitch the arms about the " right " direction axis
     //NOTE: Right remains the same, and Height should now be practically zero
-    LBicep_Depth_unpitch = cos(LShoulderPitch)∗LBicep_Depth+sin(LShoulderPitch)∗LBicep_Height;
-    RBicep_Depth_unpitch = cos(RShoulderPitch)∗RBicep_Depth+sin(RShoulderPitch)∗RBicep_Height;
+    LBicep_Depth_unpitch = cos(LShoulderPitch)*LBicep_Depth+sin(LShoulderPitch)*LBicep_Height;
+    RBicep_Depth_unpitch = cos(RShoulderPitch)*RBicep_Depth+sin(RShoulderPitch)*RBicep_Height;
     // Also un-pitch forearm segments
-    LForearm_Depth_unpitch = cos(LShoulderPitch)∗LForearm_Depth+sin(LShoulderPitch)∗LForearm_Height;
-    LForearm_Height_unpitch = -sin(LShoulderPitch)∗LForearm_Depth+cos(LShoulderPitch)∗LForearm_Height;
-    RForearm_Depth_unpitch = cos(RShoulderPitch)∗RForearm_Depth+sin(RShoulderPitch)∗RForearm_Height;
-    RForearm_Height_unpitch = -sin(RShoulderPitch)∗RForearm_Depth+cos(RShoulderPitch)∗RForearm_Height;
+    LForearm_Depth_unpitch = cos(LShoulderPitch)*LForearm_Depth+sin(LShoulderPitch)*LForearm_Height;
+    LForearm_Height_unpitch = -sin(LShoulderPitch)*LForearm_Depth+cos(LShoulderPitch)*LForearm_Height;
+    RForearm_Depth_unpitch = cos(RShoulderPitch)*RForearm_Depth+sin(RShoulderPitch)*RForearm_Height;
+    RForearm_Height_unpitch = -sin(RShoulderPitch)*RForearm_Depth+cos(RShoulderPitch)*RForearm_Height;
 
 
     // Roll angle can be calculated from the arc tangent between what in the Right direction VS Depth direction
@@ -196,17 +196,17 @@ void convertXYZvectorsToAngles() {
     RShoulderRoll = atan2(-RBicep_Right,-RBicep_Depth_unpitch);
 
     // //OBTAIN YAW AND ROLL OF THE ELBOW JOINTS
-    LForearm_Depth_unroll = cos(LShoulderRoll)∗LForearm_Depth_unpitch+sin(LShoulderRoll)∗LForearm_Right;
-    LForearm_Right_unroll = -sin(LShoulderRoll)∗LForearm_Depth_unpitch+cos(LShoulderRoll)∗LForearm_Right;
-    RForearm_Depth_unroll = cos(RShoulderRoll)∗RForearm_Depth_unpitch+sin(RShoulderRoll)∗RForearm_Right;
-    RForearm_Right_unroll = -sin(RShoulderRoll)∗RForearm_Depth_unpitch+cos(RShoulderRoll)∗RForearm_Right;
+    LForearm_Depth_unroll = cos(LShoulderRoll)*LForearm_Depth_unpitch+sin(LShoulderRoll)*LForearm_Right;
+    LForearm_Right_unroll = -sin(LShoulderRoll)*LForearm_Depth_unpitch+cos(LShoulderRoll)*LForearm_Right;
+    RForearm_Depth_unroll = cos(RShoulderRoll)*RForearm_Depth_unpitch+sin(RShoulderRoll)*RForearm_Right;
+    RForearm_Right_unroll = -sin(RShoulderRoll)*RForearm_Depth_unpitch+cos(RShoulderRoll)*RForearm_Right;
 
     // Find the Elbow Yaw angles
     LElbowYaw = atan2(-LForearm_Height_unpitch ,LForearm_Right_unroll) ;
     RElbowYaw = atan2( RForearm_Height_unpitch , -RForearm_Right_unroll) ;
     //NOTE: This should make the forearm height data practically zero
-    LForearm_Right_unyaw = cos(LElbowYaw)∗LForearm_Right_unroll-sin(LElbowYaw)∗LForearm_Height_unpitch;
-    RForearm_Right_unyaw = cos(RElbowYaw)∗RForearm_Right_unroll-sin(RElbowYaw)∗RForearm_Height_unpitch;
+    LForearm_Right_unyaw = cos(LElbowYaw)*LForearm_Right_unroll-sin(LElbowYaw)*LForearm_Height_unpitch;
+    RForearm_Right_unyaw = cos(RElbowYaw)*RForearm_Right_unroll-sin(RElbowYaw)*RForearm_Height_unpitch;
 
     // Lastly , compute the Elbow Roll angles
     LElbowRoll = atan2(-LForearm_Right_unyaw,-LForearm_Depth_unroll) ;
@@ -310,7 +310,7 @@ void initializeArms() {
     naoJointNames.push_back("RElbowRoll") ;
     naoJointAngles.push_back(0.0) ;
 }
-int main( int argc , char ∗∗argv) {
+int main( int argc , char **argv) {
 
     // initialize a node with name
     ros::init (argc, argv, "KinectRawJointAngles") ;
