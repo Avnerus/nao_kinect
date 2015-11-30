@@ -74,7 +74,7 @@ float LBicep_Height , LBicep_Right , LBicep_Depth , LForearm_Height , LForearm_R
 
 float RBicep_Height , RBicep_Right , RBicep_Depth, RForearm_Height, RForearm_Right, RForearm_Depth;
 
-// un−Pitched Arm segments
+// un-Pitched Arm segments
 float LBicep_Depth_unpitch , RBicep_Depth_unpitch , LForearm_Depth_unpitch , RForearm_Depth_unpitch , LForearm_Height_unpitch , RForearm_Height_unpitch;
 
 float LForearm_Depth_unroll , RForearm_Depth_unroll , LForearm_Right_unroll , RForearm_Right_unroll , LForearm_Right_unyaw, RForearm_Right_unyaw;
@@ -133,27 +133,27 @@ void convertXYZvectorsToAngles() {
     // Arm is generated from one bone extending from Shoulder to Elbow and another from the Elbow to the Hand
 
     // Left Arm
-    LBicep_Height = LE_Height−LS_Height;
-    LBicep_Right_unsq = LE_Right−LS_Right;
-    LBicep_Depth_unsq = LE_Depth−LS_Depth;
-    LForearm_Height = LH_Height−LE_Height;
-    LForearm_Right_unsq = LH_Right−LE_Right;
-    LForearm_Depth_unsq = LH_Depth−LE_Depth;
+    LBicep_Height = LE_Height-LS_Height;
+    LBicep_Right_unsq = LE_Right-LS_Right;
+    LBicep_Depth_unsq = LE_Depth-LS_Depth;
+    LForearm_Height = LH_Height-LE_Height;
+    LForearm_Right_unsq = LH_Right-LE_Right;
+    LForearm_Depth_unsq = LH_Depth-LE_Depth;
 
     // Right Arm
-    RBicep_Height = RE_Height−RS_Height;
-    RBicep_Right_unsq = RE_Right−RS_Right;
-    RBicep_Depth_unsq = RE_Depth−RS_Depth;
-    RForearm_Height = RH_Height−RE_Height;
-    RForearm_Right_unsq = RH_Right−RE_Right;
-    RForearm_Depth_unsq = RH_Depth−RE_Depth;
+    RBicep_Height = RE_Height-RS_Height;
+    RBicep_Right_unsq = RE_Right-RS_Right;
+    RBicep_Depth_unsq = RE_Depth-RS_Depth;
+    RForearm_Height = RH_Height-RE_Height;
+    RForearm_Right_unsq = RH_Right-RE_Right;
+    RForearm_Depth_unsq = RH_Depth-RE_Depth;
 
     // First Find the vector between the shoulders and use it to square up the model with the camera perpendicular
 
     //Assume the shoulders are at the same height , find the rotation perpendicular to the camera to square up the model
-    Zeroed_Depth = RS_Depth − LS_Depth;
-    Zeroed_Right = RS_Right − LS_Right;
-    SquareRoll = atan2(−Zeroed_Depth,Zeroed_Right) ;
+    Zeroed_Depth = RS_Depth - LS_Depth;
+    Zeroed_Right = RS_Right - LS_Right;
+    SquareRoll = atan2(-Zeroed_Depth,Zeroed_Right) ;
 
 
     //Use a rotation about
@@ -165,52 +165,52 @@ void convertXYZvectorsToAngles() {
     //Square up Left Side
 
     LBicep_Deptha = cos(SquareRoll)∗LBicep_Depth_unsq+sin(SquareRoll) ∗LBicep_Right_unsq;
-    LBicep_Right = −sin(SquareRoll)∗LBicep_Depth_unsq+cos(SquareRoll) ∗LBicep_Right_unsq;
+    LBicep_Right = -sin(SquareRoll)∗LBicep_Depth_unsq+cos(SquareRoll) ∗LBicep_Right_unsq;
     LForearm_Depth = cos(SquareRoll)∗LForearm_Depth_unsq+sin(SquareRoll) ∗ LForearm_Right_unsq;
-    LForearm_Right = −sin(SquareRoll)∗LForearm_Depth_unsq+cos(SquareRoll) ∗ LForearm_Right_unsq;
+    LForearm_Right = -sin(SquareRoll)∗LForearm_Depth_unsq+cos(SquareRoll) ∗ LForearm_Right_unsq;
 
     //Square up Right Side
     RBicep_Depth = cos(SquareRoll)∗RBicep_Depth_unsq+sin(SquareRoll) ∗ RBicep_Right_unsq;
-    RBicep_Right = −sin(SquareRoll)∗RBicep_Depth_unsq+cos(SquareRoll) ∗ RBicep_Right_unsq;
+    RBicep_Right = -sin(SquareRoll)∗RBicep_Depth_unsq+cos(SquareRoll) ∗ RBicep_Right_unsq;
     RForearm_Depth = cos(SquareRoll)∗RForearm_Depth_unsq+sin(SquareRoll) ∗ RForearm_Right_unsq;
-    RForearm_Right = −sin(SquareRoll)∗RForearm_Depth_unsq+cos(SquareRoll) ∗ RForearm_Right_unsq;
+    RForearm_Right = -sin(SquareRoll)∗RForearm_Depth_unsq+cos(SquareRoll) ∗ RForearm_Right_unsq;
 
     // //OBTAIN PITCH AND ROLL ANGLES OF THE SHOULDER JOINTS
     // Pitch angle is obtained by the arc tangent of the Depth vector and the Height vector
-    LShoulderPitch = atan2(−LBicep_Height , −LBicep_Depth) ;
-    RShoulderPitch = atan2(−RBicep_Height , −RBicep_Depth) ;
+    LShoulderPitch = atan2(-LBicep_Height , -LBicep_Depth) ;
+    RShoulderPitch = atan2(-RBicep_Height , -RBicep_Depth) ;
 
-    //Next un−pitch the arms about the " right " direction axis
+    //Next un-pitch the arms about the " right " direction axis
     //NOTE: Right remains the same, and Height should now be practically zero
     LBicep_Depth_unpitch = cos(LShoulderPitch)∗LBicep_Depth+sin(LShoulderPitch)∗LBicep_Height;
     RBicep_Depth_unpitch = cos(RShoulderPitch)∗RBicep_Depth+sin(RShoulderPitch)∗RBicep_Height;
-    // Also un−pitch forearm segments
+    // Also un-pitch forearm segments
     LForearm_Depth_unpitch = cos(LShoulderPitch)∗LForearm_Depth+sin(LShoulderPitch)∗LForearm_Height;
-    LForearm_Height_unpitch = −sin(LShoulderPitch)∗LForearm_Depth+cos(LShoulderPitch)∗LForearm_Height;
+    LForearm_Height_unpitch = -sin(LShoulderPitch)∗LForearm_Depth+cos(LShoulderPitch)∗LForearm_Height;
     RForearm_Depth_unpitch = cos(RShoulderPitch)∗RForearm_Depth+sin(RShoulderPitch)∗RForearm_Height;
-    RForearm_Height_unpitch = −sin(RShoulderPitch)∗RForearm_Depth+cos(RShoulderPitch)∗RForearm_Height;
+    RForearm_Height_unpitch = -sin(RShoulderPitch)∗RForearm_Depth+cos(RShoulderPitch)∗RForearm_Height;
 
 
     // Roll angle can be calculated from the arc tangent between what in the Right direction VS Depth direction
-    LShoulderRoll = atan2(−LBicep_Right,−LBicep_Depth_unpitch);
-    RShoulderRoll = atan2(−RBicep_Right,−RBicep_Depth_unpitch);
+    LShoulderRoll = atan2(-LBicep_Right,-LBicep_Depth_unpitch);
+    RShoulderRoll = atan2(-RBicep_Right,-RBicep_Depth_unpitch);
 
     // //OBTAIN YAW AND ROLL OF THE ELBOW JOINTS
     LForearm_Depth_unroll = cos(LShoulderRoll)∗LForearm_Depth_unpitch+sin(LShoulderRoll)∗LForearm_Right;
-    LForearm_Right_unroll = −sin(LShoulderRoll)∗LForearm_Depth_unpitch+cos(LShoulderRoll)∗LForearm_Right;
+    LForearm_Right_unroll = -sin(LShoulderRoll)∗LForearm_Depth_unpitch+cos(LShoulderRoll)∗LForearm_Right;
     RForearm_Depth_unroll = cos(RShoulderRoll)∗RForearm_Depth_unpitch+sin(RShoulderRoll)∗RForearm_Right;
-    RForearm_Right_unroll = −sin(RShoulderRoll)∗RForearm_Depth_unpitch+cos(RShoulderRoll)∗RForearm_Right;
+    RForearm_Right_unroll = -sin(RShoulderRoll)∗RForearm_Depth_unpitch+cos(RShoulderRoll)∗RForearm_Right;
 
     // Find the Elbow Yaw angles
-    LElbowYaw = atan2(−LForearm_Height_unpitch ,LForearm_Right_unroll) ;
-    RElbowYaw = atan2( RForearm_Height_unpitch , −RForearm_Right_unroll) ;
+    LElbowYaw = atan2(-LForearm_Height_unpitch ,LForearm_Right_unroll) ;
+    RElbowYaw = atan2( RForearm_Height_unpitch , -RForearm_Right_unroll) ;
     //NOTE: This should make the forearm height data practically zero
-    LForearm_Right_unyaw = cos(LElbowYaw)∗LForearm_Right_unroll−sin(LElbowYaw)∗LForearm_Height_unpitch;
-    RForearm_Right_unyaw = cos(RElbowYaw)∗RForearm_Right_unroll−sin(RElbowYaw)∗RForearm_Height_unpitch;
+    LForearm_Right_unyaw = cos(LElbowYaw)∗LForearm_Right_unroll-sin(LElbowYaw)∗LForearm_Height_unpitch;
+    RForearm_Right_unyaw = cos(RElbowYaw)∗RForearm_Right_unroll-sin(RElbowYaw)∗RForearm_Height_unpitch;
 
     // Lastly , compute the Elbow Roll angles
-    LElbowRoll = atan2(−LForearm_Right_unyaw,−LForearm_Depth_unroll) ;
-    RElbowRoll = atan2(−RForearm_Right_unyaw,−RForearm_Depth_unroll) ;
+    LElbowRoll = atan2(-LForearm_Right_unyaw,-LForearm_Depth_unroll) ;
+    RElbowRoll = atan2(-RForearm_Right_unyaw,-RForearm_Depth_unroll) ;
 
     //Emptying the old values from the name and angle arrays
 
@@ -242,13 +242,13 @@ void convertXYZvectorsToAngles() {
 // Subscriber: function called each time the Kinect publishes new skeletal data
 void getTFvectors(const tf::tfMessage::ConstPtr& msg) {
     // get the joint name
-    tfJointName = msg−>transforms[0].child_frame_id;
+    tfJointName = msg->transforms[0].child_frame_id;
     //check to see if is a "/camera..." element
     if (tfJointName.compare(0,7,dontIncludeCameraTFs)!=0) {
         // get the X, Y, and Z coordinates for the kinect joint
-        Depth_X = msg−>transforms[0].transform.translation.x;
-        Right_Y = msg−>transforms[0].transform.translation.y;
-        Height_Z = msg−>transforms[0].transform.translation.z;
+        Depth_X = msg->transforms[0].transform.translation.x;
+        Right_Y = msg->transforms[0].transform.translation.y;
+        Height_Z = msg->transforms[0].transform.translation.z;
 
 
         //The head element is first it will allow us to begin our parsing
@@ -265,7 +265,7 @@ void getTFvectors(const tf::tfMessage::ConstPtr& msg) {
                 convertXYZvectorsToAngles();
             }
 
-            //empty the X−Y−Z coordinate arrays
+            //empty the X-Y-Z coordinate arrays
             while (!tfNames.empty()) {
                 tfNames.pop_back() ;
                 tfDepth.pop_back() ;
@@ -337,7 +337,7 @@ int main( int argc , char ∗∗argv) {
     while(ros::ok()) {
         // Put elements into message for publishing topic
         msg.joint_names = naoJointNames;
-        msg.joint_angles = naoJointAngles;  // float [] −In Radians (must be array)
+        msg.joint_angles = naoJointAngles;  // float [] -In Radians (must be array)
         speed = 0.5;
         rel = 0;
         msg.speed = speed; // float 
