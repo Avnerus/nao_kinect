@@ -12,8 +12,8 @@ https://smartech.gatech.edu/bitstream/handle/1853/51872/BARTHOLOMEW-THESIS-2014.
 
 #include "ros/ros.h"
 #include "tf/tfMessage.h"
-#include "nao_msgs/JointAnglesWithSpeed.h"
-#include <string >
+#include "naoqi_bridge_msgs/JointAnglesWithSpeed.h"
+#include <string>
 #include <vector>
 #include <math.h>
 

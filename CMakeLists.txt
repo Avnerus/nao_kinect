@@ -128,7 +128,7 @@ include_directories(
 # add_dependencies(nao_kinect ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(nao_kinect_node src/nao_kinect_node.cpp)
+add_executable(nao_teleop src/nao_teleop.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
