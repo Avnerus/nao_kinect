@@ -135,9 +135,9 @@ add_executable(nao_teleop src/nao_teleop.cpp)
 # add_dependencies(nao_kinect_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(nao_kinect_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(nao_teleop
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
