@@ -23,7 +23,7 @@ https://smartech.gatech.edu/bitstream/handle/1853/51872/BARTHOLOMEW-THESIS-2014.
 std::string tfJointName;
 
 // constant "/camera" we don’t want to include these elements in the kinect skeletal array
-const std::string dontIncludeCameraTFs ("/camera") ;
+const std::string dontIncludeCameraTFs ("/camera_depth_frame") ;
 
 // constant "/head" which is the first element published by the kinect
 const std::string head ("/head_1") ;
