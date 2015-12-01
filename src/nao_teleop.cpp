@@ -16,17 +16,20 @@ https://smartech.gatech.edu/bitstream/handle/1853/51872/BARTHOLOMEW-THESIS-2014.
 #include <string>
 #include <vector>
 #include <math.h>
+#include <ros/console.h>
 
 // //LIST OF VARIABLES
 
 // extraction of kinect joint name
 std::string tfJointName;
+std::string tfFrameName;
 
 // constant "/camera" we don’t want to include these elements in the kinect skeletal array
-const std::string dontIncludeCameraTFs ("/camera_depth_frame") ;
+const std::string dontIncludeCameraTFs ("/camera_frame") ;
+const std::string includeDepthFrame ("/tracker_depth_frame") ;
 
 // constant "/head" which is the first element published by the kinect
-const std::string head ("/head_1") ;
+const std::string head ("/tracker/user_1/head") ;
 
 // extractions for kinect translational vector data
 float Depth_X;
@@ -98,36 +101,40 @@ void convertXYZvectorsToAngles() {
     // get a shoulder , elbow, and hand vectors from Kinect
     // Note: Data is Mirrored switch Right and Left to unmirror
 
-    // left shoulder is element 3
-    RS_Depth = tfDepth.at(3);
-    RS_Right = tfRight.at(3);
-    RS_Height = tfHeight.at(3);
+// Using this Tracker: https://github.com/Avnerus/skeleton_tracker
+    ROS_INFO("GO!!");
 
-    // left elbow is element 4
-    RE_Depth = tfDepth.at(4);
-    RE_Right = tfRight.at(4);
-    RE_Height = tfHeight.at(4);
+    // left shoulder is element 6
+    RS_Depth = tfDepth.at(6);
+    RS_Right = tfRight.at(6);
+    RS_Height = tfHeight.at(6);
 
-    // left hand is element 5
-    RH_Depth = tfDepth.at(5);
-    RH_Right = tfRight.at(5);
-    RH_Height = tfHeight.at(5);
+    // left elbow is element 1
+    RE_Depth = tfDepth.at(1);
+    RE_Right = tfRight.at(1);
+    RE_Height = tfHeight.at(1);
 
-    // right shoulder is element 6
+    // left hand is element 3
+    RH_Depth = tfDepth.at(3);
+    RH_Right = tfRight.at(3);
+    RH_Height = tfHeight.at(3);
 
-    LS_Depth = tfDepth.at(6);
-    LS_Right = tfRight.at(6);
-    LS_Height = tfHeight.at(6);
+    // right shoulder is element 13
+    LS_Depth = tfDepth.at(13);
+    LS_Right = tfRight.at(13);
+    LS_Height = tfHeight.at(13);
 
-    // right elbow is element 7
-    LE_Depth = tfDepth.at(7);
-    LE_Right = tfRight.at(7);
-    LE_Height = tfHeight.at(7);
+    // right elbow is element 8
+    LE_Depth = tfDepth.at(8);
+    LE_Right = tfRight.at(8);
+    LE_Height = tfHeight.at(8);
 
-    // right hand is element 8
-    LH_Depth = tfDepth.at(8);
-    LH_Right = tfRight.at(8);
-    LH_Height = tfHeight.at(8);
+    ///ROS_INFO_STREAM("Right elbow height: " << LE_Height << " Right: " << LE_Right << " Depth: " << LE_Depth);
+
+    // right hand is element 10
+    LH_Depth = tfDepth.at(10);
+    LH_Right = tfRight.at(10);
+    LH_Height = tfHeight.at(10);
 
     // //BUILD ARMS FROM SEGMENTS
     // Arm is generated from one bone extending from Shoulder to Elbow and another from the Elbow to the Hand
@@ -243,8 +250,10 @@ void convertXYZvectorsToAngles() {
 void getTFvectors(const tf::tfMessage::ConstPtr& msg) {
     // get the joint name
     tfJointName = msg->transforms[0].child_frame_id;
+    tfFrameName = msg->transforms[0].header.frame_id;
+
     //check to see if is a "/camera..." element
-    if (tfJointName.compare(0,7,dontIncludeCameraTFs)!=0) {
+    if (tfFrameName.compare(includeDepthFrame) == 0 && tfJointName.compare(dontIncludeCameraTFs)!=0) {
         // get the X, Y, and Z coordinates for the kinect joint
         Depth_X = msg->transforms[0].transform.translation.x;
         Right_Y = msg->transforms[0].transform.translation.y;
@@ -257,7 +266,7 @@ void getTFvectors(const tf::tfMessage::ConstPtr& msg) {
         {
             //so call a function to empty the vector and transform the vectors
             // into angles theta and phi
-            // wait to be length of 15 before making function call
+            // wait to be length of 14 before making function call
             if (tfNames.size ()==15)
             {
                 //New head element means we should publish the old kinect
@@ -315,6 +324,8 @@ int main( int argc , char **argv) {
     // initialize a node with name
     ros::init (argc, argv, "KinectRawJointAngles") ;
 
+    ROS_INFO("Nao Kinect node Active");
+
     // create node handle
     ros::NodeHandle n;
 
@@ -322,7 +333,7 @@ int main( int argc , char **argv) {
     ros::Subscriber sub = n.subscribe("tf" , 1000, getTFvectors);
 
     // create a function to advertise on a given topic
-    ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("raw_joint_angles" ,1000);
+    ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/nao_robot/pose/joint_angles" ,1000);
 
     //choose the looping rate
     ros::Rate loop_rate(30.0);
@@ -340,6 +351,7 @@ int main( int argc , char **argv) {
         msg.joint_angles = naoJointAngles;  // float [] -In Radians (must be array)
         speed = 0.5;
         rel = 0;
+
         msg.speed = speed; // float 
         msg.relative = rel; // unit8
 
