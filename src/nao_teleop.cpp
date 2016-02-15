@@ -102,12 +102,14 @@ void convertXYZvectorsToAngles() {
     // Note: Data is Mirrored switch Right and Left to unmirror
 
 // Using this Tracker: https://github.com/Avnerus/skeleton_tracker
-    ROS_INFO("GO!!");
+    //ROS_INFO("GO!!");
 
     // left shoulder is element 6
     RS_Depth = tfDepth.at(6);
     RS_Right = tfRight.at(6);
     RS_Height = tfHeight.at(6);
+
+
 
     // left elbow is element 1
     RE_Depth = tfDepth.at(1);
@@ -128,8 +130,6 @@ void convertXYZvectorsToAngles() {
     LE_Depth = tfDepth.at(8);
     LE_Right = tfRight.at(8);
     LE_Height = tfHeight.at(8);
-
-    ///ROS_INFO_STREAM("Right elbow height: " << LE_Height << " Right: " << LE_Right << " Depth: " << LE_Depth);
 
     // right hand is element 10
     LH_Depth = tfDepth.at(10);
@@ -162,6 +162,11 @@ void convertXYZvectorsToAngles() {
     Zeroed_Right = RS_Right - LS_Right;
     SquareRoll = atan2(-Zeroed_Depth,Zeroed_Right) ;
 
+    /*ROS_INFO_STREAM("Right Shoulder XYZ = (" << RS_Right << "," << RS_Height << "," << RS_Depth << ")");
+    ROS_INFO_STREAM("Left Shoulder XYZ = (" << LS_Right << "," << LS_Height << "," << LS_Depth << ")");
+
+
+    ROS_INFO_STREAM("SquareRoll Angel  = atan2(" << -Zeroed_Depth << "," << Zeroed_Right << ") = " << SquareRoll << "(" << SquareRoll * (180.0 / M_PI) << ")" );*/
 
     //Use a rotation about
     // Use the standard rotation matrix since both are rotation about the Height Axis to square up the model
@@ -228,7 +233,7 @@ void convertXYZvectorsToAngles() {
 
     // Put the new name and angle values into their corresponding structures
     naoJointNames.push_back("LShoulderPitch") ;
-    naoJointAngles.push_back(LShoulderPitch) ;
+    naoJointAngles.push_back(LShoulderPitch) ; 
     naoJointNames.push_back("LShoulderRoll") ;
     naoJointAngles.push_back(LShoulderRoll) ;
     naoJointNames.push_back("LElbowYaw") ;
@@ -255,9 +260,11 @@ void getTFvectors(const tf::tfMessage::ConstPtr& msg) {
     //check to see if is a "/camera..." element
     if (tfFrameName.compare(includeDepthFrame) == 0 && tfJointName.compare(dontIncludeCameraTFs)!=0) {
         // get the X, Y, and Z coordinates for the kinect joint
+
+	// Had to swtich Z and Y. Y is height and Z is right
         Depth_X = msg->transforms[0].transform.translation.x;
-        Right_Y = msg->transforms[0].transform.translation.y;
-        Height_Z = msg->transforms[0].transform.translation.z;
+        Right_Y = msg->transforms[0].transform.translation.z;
+        Height_Z = msg->transforms[0].transform.translation.y;
 
 
         //The head element is first it will allow us to begin our parsing
@@ -333,7 +340,8 @@ int main( int argc , char **argv) {
     ros::Subscriber sub = n.subscribe("tf" , 1000, getTFvectors);
 
     // create a function to advertise on a given topic
-    ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/nao_robot/pose/joint_angles" ,1000);
+    //ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/nao_robot/pose/joint_angles" ,1000);
+    ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/joint_angles" ,1000);
 
     //choose the looping rate
     ros::Rate loop_rate(30.0);
