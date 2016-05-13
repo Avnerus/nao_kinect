@@ -104,37 +104,35 @@ void convertXYZvectorsToAngles() {
 // Using this Tracker: https://github.com/Avnerus/skeleton_tracker
     //ROS_INFO("GO!!");
 
-    // left shoulder is element 6
-    RS_Depth = tfDepth.at(6);
-    RS_Right = tfRight.at(6);
-    RS_Height = tfHeight.at(6);
-
-
+    // left shoulder is element 3
+    RS_Depth = tfDepth.at(3);
+    RS_Right = tfRight.at(3);
+    RS_Height = tfHeight.at(3);
 
     // left elbow is element 1
     RE_Depth = tfDepth.at(1);
     RE_Right = tfRight.at(1);
     RE_Height = tfHeight.at(1);
 
-    // left hand is element 3
-    RH_Depth = tfDepth.at(3);
-    RH_Right = tfRight.at(3);
-    RH_Height = tfHeight.at(3);
+    // left hand is element 2 
+    RH_Depth = tfDepth.at(2);
+    RH_Right = tfRight.at(2);
+    RH_Height = tfHeight.at(2);
 
-    // right shoulder is element 13
-    LS_Depth = tfDepth.at(13);
-    LS_Right = tfRight.at(13);
-    LS_Height = tfHeight.at(13);
+    // right shoulder is element 6
+    LS_Depth = tfDepth.at(6);
+    LS_Right = tfRight.at(6);
+    LS_Height = tfHeight.at(6);
 
-    // right elbow is element 8
-    LE_Depth = tfDepth.at(8);
-    LE_Right = tfRight.at(8);
-    LE_Height = tfHeight.at(8);
+    // right elbow is element 4
+    LE_Depth = tfDepth.at(4);
+    LE_Right = tfRight.at(4);
+    LE_Height = tfHeight.at(4);
 
-    // right hand is element 10
-    LH_Depth = tfDepth.at(10);
-    LH_Right = tfRight.at(10);
-    LH_Height = tfHeight.at(10);
+    // right hand is element 5
+    LH_Depth = tfDepth.at(5);
+    LH_Right = tfRight.at(5);
+    LH_Height = tfHeight.at(5);
 
     // //BUILD ARMS FROM SEGMENTS
     // Arm is generated from one bone extending from Shoulder to Elbow and another from the Elbow to the Hand
@@ -274,7 +272,7 @@ void getTFvectors(const tf::tfMessage::ConstPtr& msg) {
             //so call a function to empty the vector and transform the vectors
             // into angles theta and phi
             // wait to be length of 14 before making function call
-            if (tfNames.size ()==15)
+            if (tfNames.size () == 7)
             {
                 //New head element means we should publish the old kinect
                 // skeleton and clear out the array before starting again
@@ -337,14 +335,14 @@ int main( int argc , char **argv) {
     ros::NodeHandle n;
 
     // create a function to subscribe to a topic
-    ros::Subscriber sub = n.subscribe("tf" , 1000, getTFvectors);
+    ros::Subscriber sub = n.subscribe("tf" , 2000, getTFvectors);
 
     // create a function to advertise on a given topic
-    //ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/nao_robot/pose/joint_angles" ,1000);
+    //ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/nao_robot/pose/joint_angles" ,000);
     ros::Publisher joint_angles_pub = n.advertise<naoqi_bridge_msgs::JointAnglesWithSpeed>("/joint_angles" ,1000);
 
     //choose the looping rate
-    ros::Rate loop_rate(30.0);
+    ros::Rate loop_rate(500);
 
     // create message element to be filled with appropriate data to be published
     naoqi_bridge_msgs::JointAnglesWithSpeed msg;
